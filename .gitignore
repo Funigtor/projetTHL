@@ -2,3 +2,6 @@ calculette
 calculette.cpp
 calculette.tab.h
 calculette.tab.c
+node_modules/
+.vscode/
+build/

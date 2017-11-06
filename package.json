@@ -1,0 +1,21 @@
+{
+  "name": "projetthl",
+  "version": "1.0.0",
+  "description": "Un projet pour faire des courbes",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "jquery": "^3.2.1",
+    "nan": "^2.7.0",
+    "node-gyp": "^3.6.2",
+    "socketio": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "node-gyp rebuild",
+    "start": "node main.js"
+  },
+  "author": "Chevalier et Despriet",
+  "license": "WTFPL"
+}
