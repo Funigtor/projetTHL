@@ -1,2 +1,6 @@
 json/* linguist-vendored
 jsoncpp.cpp linguist-vendored
+calculette linguist-generated=true
+calculette.cpp linguist-generated=true
+calculette.tab.h linguist-generated=true
+calculette.tab.c linguist-generated=true
