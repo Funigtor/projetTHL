@@ -18,8 +18,14 @@ socket.on("tab", function (data) {
     canvas = document.getElementById('graph');
     if (canvas.getContext) {
         var ctx = canvas.getContext('2d');
+        ctx.translate(0, canvas.height);
+        ctx.scale(1, -1);
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, document.getElementById("graph").getAttribute('width'), document.getElementById("graph").getAttribute('height'));
+        // Après avoir nettoyé notre espace, on va ajouter des axes
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,document.getElementById("graph").getAttribute('width'),3);
+        ctx.fillRect(0,0,3,document.getElementById("graph").getAttribute("height"));
         ctx.fillStyle = 'rgb(200, 0, 0)';
         for (i = 0; i < 1000; i++) {
             ctx.fillRect(i, tab.points[i], 1, 1)
