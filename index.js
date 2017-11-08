@@ -6,12 +6,10 @@ var http = require('http').Server(app);
 var io = require('socket.io').listen(http);
 var fs = require('fs');
 
-var client = fs.readFileSync("client.html");
 var jquery = fs.readFileSync("node_modules/jquery/dist/jquery.min.js");
-var jsClient = fs.readFileSync("client.js");
 
 app.get('/', function(req, res){
-  //res.send('<h1>Hello world</h1>');
+  var client = fs.readFileSync("client.html");
   res.send(client.toString());
 });
 
@@ -20,6 +18,7 @@ app.get('/jquery.min.js', function(req,res){
 });
 
 app.get('/client.js', function(req,res){
+    var jsClient = fs.readFileSync("client.js");    
     res.send(jsClient.toString());
 });
 
