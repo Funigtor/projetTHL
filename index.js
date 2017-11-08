@@ -39,7 +39,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('sandwich', function(message){
         //tabJson = RandTab();
         input = JSON.parse(message);
-        if (input.debut == input.fin) socket.emit("LolNope",{});
+        if (input.debut >= input.fin) socket.emit("LolNope",{});
         else {
             tabJson = plot(input.fonction, Number(input.debut), Number(input.fin));
         console.log(tabJson);
