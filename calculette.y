@@ -13,13 +13,9 @@ double bino(int n, int k){
     return (fact(n)/(fact(k)*fact(n-k)));
 }
 
-double test(){
-	for (int i = 0; i <= 100 ; i++ ){
-		return i;
-	}
-}
-
 double ans=0;
+
+double varx =0.;
 
 int yyerror(char *s) {                  
     printf("%s\n", s);
@@ -54,6 +50,7 @@ int yyerror(char *s) {
 %token FACT
 %token BINO
 %token ANS
+%token VAR
 
 %left '+' '-'
 %left '*' '/'
@@ -67,43 +64,44 @@ program: /* empty */
 line: '\n'			 
 	| expr '\n' {
 		std::cout << "result : " << $1 << std::endl;
-		ans = $1;
-	}	
+		ans = $1;}
+	| VAR '=' expr { varx = $3; }
 	;
 
 expr:
      NUM                            { $$ = $1 ;}
-     | expr '+' expr                { $$ = $1 + $3; 		std::cout << $1 << " + " << $3 << " = " << $$ <<std::endl; }
+     |VAR 							{ $$ = varx ;}
+     | expr '+' expr                { $$ = $1 + $3;}
      | '-' expr                     { $$ = - $2; }
-     | expr '-' expr                { $$ = $1 - $3; 		std::cout << $1 << " - " << $3 << " = " << $$ <<std::endl; }	
-     | expr '*' expr                { $$ = $1 * $3; 		std::cout << $1 << " * " << $3 << " = " << $$ <<std::endl; }
-     | expr '/' expr	            { $$ = $1 / $3; 		std::cout << $1 << " / " << $3 << " = " << $$ <<std::endl; }
-     | '(' expr ')'                 { $$ = $2;  }
-     | COS '(' expr ')'             { $$ = cos($3); 		std::cout << "cos(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | SIN '(' expr ')'             { $$ = sin($3); 		std::cout << "sin(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | TAN '(' expr ')'             { $$ = tan($3); 		std::cout << "tan(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | ACOS '(' expr ')'            { $$ = acos($3); 		std::cout << "acos(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | ASIN '(' expr ')'            { $$ = asin($3); 		std::cout << "asin(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | ATAN '(' expr ')'            { $$ = atan($3); 		std::cout << "atan(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | EXP '(' expr ')'             { $$ = exp($3); 		std::cout << "exp(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | LOG '(' expr ')'             { $$ = log($3); 		std::cout << "log(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | SQRT '(' expr ')'            { $$ = sqrt($3); 		std::cout << "sqrt(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | POW '('expr ',' expr ')'     { $$ = pow($3,$5); 		std::cout << "pow(" << $3 << "," << $5 << ")" << " = " << $$ <<std::endl; }
-     | expr '^' expr                { $$ = pow($1,$3); 		std::cout << "pow(" << $1 << "," << $3 << ")" << " = " << $$ <<std::endl; }
-     | COSH '(' expr ')'            { $$ = cosh($3); 		std::cout << "cosh(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | SINH '(' expr ')'            { $$ = sinh($3); 		std::cout << "sinh(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | TANH '(' expr ')'            { $$ = tanh($3); 		std::cout << "tanh(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | ACOSH '(' expr ')'           { $$ = acosh($3); 		std::cout << "acosh(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | ASINH '(' expr ')'           { $$ = asinh($3); 		std::cout << "asinh(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | ATANH '(' expr ')'           { $$ = atanh($3); 		std::cout << "atanh(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | FMOD '(' expr ',' expr ')'   { $$ = fmod($3,$5); 	std::cout << "fmod(" << $3 << "," << $5 << ")" << " = " << $$ <<std::endl; }
-     | expr '%' expr                { $$ = fmod($1,$3); 	std::cout << "fmod(" << $1 << "," << $3 << ")" << " = " << $$ <<std::endl; }
-     | ABS '(' expr ')'             { $$ = abs($3); 		std::cout << "abs(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | '|' expr '|'                 { $$ = abs($2); 		std::cout << "abs(" << $2 << ")" << " = " << $$ <<std::endl; }
-     | FACT '(' expr ')'            { $$ = fact($3); 		std::cout << "fact(" << $3 << ")" << " = " << $$ <<std::endl; }
-     | '!' expr                     { $$ = fact($2); 		std::cout << "fact(" << $2 << ")" << " = " << $$ <<std::endl; }
-     | BINO '(' expr ',' expr ')'   { $$ = bino($3,$5); 	std::cout << "bino(" << $3 << "," << $5 << ")" << " = " << $$ <<std::endl; }
-     | ANS 							{ $$ = ans; }
+     | expr '-' expr                { $$ = $1 - $3;}	
+     | expr '*' expr                { $$ = $1 * $3;}
+     | expr '/' expr	            { $$ = $1 / $3;}
+     | '(' expr ')'                 { $$ = $2;}
+     | COS '(' expr ')'             { $$ = cos($3);}
+     | SIN '(' expr ')'             { $$ = sin($3);}
+     | TAN '(' expr ')'             { $$ = tan($3);}
+     | ACOS '(' expr ')'            { $$ = acos($3);}
+     | ASIN '(' expr ')'            { $$ = asin($3);}
+     | ATAN '(' expr ')'            { $$ = atan($3);}
+     | EXP '(' expr ')'             { $$ = exp($3);}
+     | LOG '(' expr ')'             { $$ = log($3);}
+     | SQRT '(' expr ')'            { $$ = sqrt($3);}
+     | POW '('expr ',' expr ')'     { $$ = pow($3,$5);}
+     | expr '^' expr                { $$ = pow($1,$3);}
+     | COSH '(' expr ')'            { $$ = cosh($3);}
+     | SINH '(' expr ')'            { $$ = sinh($3);}
+     | TANH '(' expr ')'            { $$ = tanh($3);}
+     | ACOSH '(' expr ')'           { $$ = acosh($3);}
+     | ASINH '(' expr ')'           { $$ = asinh($3);}
+     | ATANH '(' expr ')'           { $$ = atanh($3);}
+     | FMOD '(' expr ',' expr ')'   { $$ = fmod($3,$5);}
+     | expr '%' expr                { $$ = fmod($1,$3);}
+     | ABS '(' expr ')'             { $$ = abs($3);}
+     | '|' expr '|'                 { $$ = abs($2);}
+     | FACT '(' expr ')'            { $$ = fact($3);}
+     | '!' expr                     { $$ = fact($2);}
+     | BINO '(' expr ',' expr ')'   { $$ = bino($3,$5);}
+     | ANS 							{ $$ = ans; };
 %%
 
 int main(void) {

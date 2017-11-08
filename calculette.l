@@ -27,6 +27,8 @@ abs|Abs|ABS { return ABS; }
 fact|Fact|FACT { return FACT; }
 bino|Bino|BINO { return BINO; }
 ans|Ans|ANS { return ANS; }
+x|X {return VAR; }
+
 
 
 Pi|PI|pi    {  yylval = 3.14159265359; return NUM; }
