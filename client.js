@@ -26,3 +26,5 @@ socket.on("tab", function (data) {
         }
     }
 })
+
+socket.on("LolNope", data => alert("Les données d'entrées sont incorrectes."))
