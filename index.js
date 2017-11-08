@@ -8,6 +8,7 @@ var fs = require('fs');
 
 var client = fs.readFileSync("client.html");
 var jquery = fs.readFileSync("node_modules/jquery/dist/jquery.min.js");
+var jsClient = fs.readFileSync("client.js");
 
 app.get('/', function(req, res){
   //res.send('<h1>Hello world</h1>');
@@ -16,6 +17,10 @@ app.get('/', function(req, res){
 
 app.get('/jquery.min.js', function(req,res){
     res.send(jquery.toString());
+});
+
+app.get('/client.js', function(req,res){
+    res.send(jsClient.toString());
 });
 
 http.listen(3000, function(){
