@@ -1,7 +1,6 @@
 all:
-	#rm calculette calculette.c calculette.tab.c calculette.tab.h
-	flex -o calculette.cpp calculette.l
-	bison -d calculette.y 
-	g++ calculette.cpp calculette.tab.c -o calculette -lm
-	clear
-	./calculette
+	rm calculette.exe calculette.lex.cpp calculette.bison.cpp calculette.bison.h
+	flex -o calculette.lex.cpp calculette.l
+	bison -d calculette.y -o calculette.bison.cpp
+	g++ -std=c++11 calculette.lex.cpp calculette.bison.cpp -o calculette
+	

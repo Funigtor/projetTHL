@@ -1,33 +1,218 @@
 %{
-#include <iostream>
-#include <cmath> 
-#include <stdio.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <iostream>
+  #include <math.h>
+  #include <map>
+  #include <string>
+  #include <vector>
+  #include <stack>
 
-extern int yylex ();
+  using namespace std;
+  extern int yylex ();
+  extern char* yytext;
+  extern FILE* yyin;
+  double varx = 0.;
+  vector< pair<string,double> > expression;
+  stack <double> calculons;
+  vector <double> result;
 
-double fact(int n){
-  return (n == 1 || n == 0) ? 1 : fact(n - 1) * n;
-}
-
-double bino(int n, int k){
-    return (fact(n)/(fact(k)*fact(n-k)));
-}
-
-double ans=0;
-
-double varx =0.;
-
-int yyerror(char *s) {                  
-    printf("%s\n", s);
-}
-%}
-
-%code requires
-  {
-    #define YYSTYPE double
+  double fact(int n){
+    return (n == 1 || n == 0) ? 1 : fact(n - 1) * n;
   }
 
-%token NUM
+  double bino(int n, int k){
+    return (fact(n)/(fact(k)*fact(n-k)));
+  }
+
+  void calcul_exp (double x){
+    double temp1;
+    double temp2;
+    for (auto j : expression){
+      if (j.first == "NUM"){
+        calculons.push(j.second);
+      }else if (j.first == "VAR"){
+        calculons.push(x);
+      }else if (j.first == "+"){
+        temp2 = calculons.top();
+        calculons.pop();
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1+= temp2;
+        calculons.push(temp1);
+      }else if (j.first == "-"){
+        temp2 = calculons.top();
+        calculons.pop();
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1+= temp2;
+        calculons.push(temp1);
+      }else if (j.first == "_"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = -temp1;
+        calculons.push(temp1);
+      }else if (j.first == "*"){
+        temp2 = calculons.top();
+        calculons.pop();
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 *= temp2;
+        calculons.push(temp1);
+      }else if (j.first == "/"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp2 = calculons.top();
+        calculons.pop();
+        temp1 /= temp2;
+        calculons.push(temp1);
+      }else if (j.first == "sin"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = sin(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "cos"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = cos(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "tan"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = tan(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "asin"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = asin(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "acos"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = asin(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "atan"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = atan(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "exp"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = exp(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "log"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = log(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "sqrt"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = sqrt(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "^"){
+        temp2 = calculons.top();
+        calculons.pop();
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 =pow(temp1,temp2);
+        calculons.push(temp1);
+      }else if (j.first == "cosh"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = cosh(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "sinh"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = sinh(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "tanh"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = tanh(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "acosh"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = acosh(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "asinh"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = asinh(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "atanh"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = atanh(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "abs"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = fabs(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "%"){
+        temp2 = calculons.top();
+        calculons.pop();
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = fmod(temp1,temp2);
+        calculons.push(temp1);
+      }else if (j.first == "!"){
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = atanh(temp1);
+        calculons.push(temp1);
+      }else if (j.first == "bino"){
+        temp2 = calculons.top();
+        calculons.pop();
+        temp1 = calculons.top();
+        calculons.pop();
+        temp1 = bino(temp1,temp2);
+        calculons.push(temp1);
+      }
+    }
+    result.push_back(calculons.top());
+    calculons.pop();
+
+  }
+
+  void test(){
+    for ( auto i : expression ){
+      cout << i.first << " -> " << i.second << " "<<endl;
+    }
+    cout << endl;
+    for (double o = 0; o<=10; o++){
+      calcul_exp(o);
+    }
+    for (auto p: result){
+      cout << p << " ; " ;
+    }
+    cout << endl;
+    while (!result.empty()){
+      result.pop_back();
+    }
+    while (!expression.empty()){
+      expression.pop_back();
+    }
+  }
+
+  int yyerror(char *s) { printf("%s\n", s); }
+
+%}
+
+%union
+{
+  double dval;
+  char sval[40];
+}
+
+%token <dval> NUM
+%token <sval> VAR
+%type <dval> expr
+
 %token POW
 %token EXP
 %token LOG
@@ -49,62 +234,62 @@ int yyerror(char *s) {
 
 %token FACT
 %token BINO
-%token ANS
-%token VAR
 
 %left '+' '-'
 %left '*' '/'
 %left '^' '%' '!'
 
 %%
-program: /* empty */		
-       | program line          
+program: /* empty */
+       | program line
 	   ;
 
-line: '\n'			 
-	| expr '\n' {
-		std::cout << "result : " << $1 << std::endl;
-		ans = $1;}
-	| VAR '=' expr { varx = $3; }
+line: '\n'
+	| expr '\n' { cout<< " " <<endl;test(); }
+  | VAR '=' expr   { cout<<"affectation"<<endl; }
 	;
 
 expr:
-     NUM                            { $$ = $1 ;}
-     |VAR 							{ $$ = varx ;}
-     | expr '+' expr                { $$ = $1 + $3;}
-     | '-' expr                     { $$ = - $2; }
-     | expr '-' expr                { $$ = $1 - $3;}	
-     | expr '*' expr                { $$ = $1 * $3;}
-     | expr '/' expr	            { $$ = $1 / $3;}
-     | '(' expr ')'                 { $$ = $2;}
-     | COS '(' expr ')'             { $$ = cos($3);}
-     | SIN '(' expr ')'             { $$ = sin($3);}
-     | TAN '(' expr ')'             { $$ = tan($3);}
-     | ACOS '(' expr ')'            { $$ = acos($3);}
-     | ASIN '(' expr ')'            { $$ = asin($3);}
-     | ATAN '(' expr ')'            { $$ = atan($3);}
-     | EXP '(' expr ')'             { $$ = exp($3);}
-     | LOG '(' expr ')'             { $$ = log($3);}
-     | SQRT '(' expr ')'            { $$ = sqrt($3);}
-     | POW '('expr ',' expr ')'     { $$ = pow($3,$5);}
-     | expr '^' expr                { $$ = pow($1,$3);}
-     | COSH '(' expr ')'            { $$ = cosh($3);}
-     | SINH '(' expr ')'            { $$ = sinh($3);}
-     | TANH '(' expr ')'            { $$ = tanh($3);}
-     | ACOSH '(' expr ')'           { $$ = acosh($3);}
-     | ASINH '(' expr ')'           { $$ = asinh($3);}
-     | ATANH '(' expr ')'           { $$ = atanh($3);}
-     | FMOD '(' expr ',' expr ')'   { $$ = fmod($3,$5);}
-     | expr '%' expr                { $$ = fmod($1,$3);}
-     | ABS '(' expr ')'             { $$ = abs($3);}
-     | '|' expr '|'                 { $$ = abs($2);}
-     | FACT '(' expr ')'            { $$ = fact($3);}
-     | '!' expr                     { $$ = fact($2);}
-     | BINO '(' expr ',' expr ')'   { $$ = bino($3,$5);}
-     | ANS 							{ $$ = ans; };
+     NUM                            { expression.push_back(make_pair("NUM",$1));}
+     |VAR                           { expression.push_back(make_pair("VAR",0)); }
+     | expr '+' expr                { expression.push_back(make_pair("+", 0));}
+     | '-' expr                     { expression.push_back(make_pair("_", 0));}
+     | expr '-' expr                { expression.push_back(make_pair("-", 0));}
+     | expr '*' expr                { expression.push_back(make_pair("*", 0));}
+     | expr '/' expr                { expression.push_back(make_pair("/", 0));}
+     | '(' expr ')'                 { }
+     | COS '(' expr ')'             { expression.push_back(make_pair("cos", 0));}
+     | SIN '(' expr ')'             { expression.push_back(make_pair("sin", 0));}
+     | TAN '(' expr ')'             { expression.push_back(make_pair("tan", 0));}
+     | ACOS '(' expr ')'            { expression.push_back(make_pair("acos", 0));}
+     | ASIN '(' expr ')'            { expression.push_back(make_pair("asin", 0));}
+     | ATAN '(' expr ')'            { expression.push_back(make_pair("atan", 0));}
+     | EXP '(' expr ')'             { expression.push_back(make_pair("exp", 0));}
+     | LOG '(' expr ')'             { expression.push_back(make_pair("log", 0));}
+     | SQRT '(' expr ')'            { expression.push_back(make_pair("sqrt", 0));}
+     | POW '('expr ',' expr ')'     { expression.push_back(make_pair("^", 0));}
+     | expr '^' expr                { expression.push_back(make_pair("^", 0));}
+     | COSH '(' expr ')'            { expression.push_back(make_pair("cosh", 0));}
+     | SINH '(' expr ')'            { expression.push_back(make_pair("sinh", 0));}
+     | TANH '(' expr ')'            { expression.push_back(make_pair("tanh", 0));}
+     | ACOSH '(' expr ')'           { expression.push_back(make_pair("acosh", 0));}
+     | ASINH '(' expr ')'           { expression.push_back(make_pair("asinh", 0));}
+     | ATANH '(' expr ')'           { expression.push_back(make_pair("atanh", 0));}
+     | FMOD '(' expr ',' expr ')'   { expression.push_back(make_pair("%", 0));}
+     | expr '%' expr                { expression.push_back(make_pair("%", 0));}
+     | ABS '(' expr ')'             { expression.push_back(make_pair("abs", 0));}
+     | '|' expr '|'                 { expression.push_back(make_pair("abs", 0));}
+     | FACT '(' expr ')'            { expression.push_back(make_pair("!", 0));}
+     | '!' expr                     { expression.push_back(make_pair("!", 0));}
+     | BINO '(' expr ',' expr ')'   { expression.push_back(make_pair("bino", 0));};
+
 %%
 
-int main(void) {
-    yyparse();						
-    return 0;
+
+int main(int argc, char* argv[]) {
+	if (argc>= 2) yyin = fopen(argv[1],"r");
+  yyparse();
+  fclose(yyin);
+  return 0;
+
 }

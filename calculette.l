@@ -1,11 +1,16 @@
 %{
-	#include <iostream>
-	#include "calculette.tab.h"
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string>
+  using namespace std;
+
+  #include "calculette.bison.hpp"
 %}
 
 %%
 
-[0-9]+(\.[0-9]*)?([Ee][0-9]+)? {  yylval = atof(yytext); return NUM; }
+[0-9]+(\.[0-9]*)?([Ee][0-9]+)? {  yylval.dval = atof(yytext); return NUM; }
+Pi|PI|pi    {  yylval.dval = 3.14159265359; return NUM; }
 sin|sinus|Sin|Sinus|SINUS|SIN {  return SIN; }
 cos|cosinus|Cosinus|Cos|COSINUS|COS {  return COS; }
 tan|TAN|Tan {  return TAN; }
@@ -26,17 +31,12 @@ Fmod|FMOD|fmod { return FMOD; }
 abs|Abs|ABS { return ABS; }
 fact|Fact|FACT { return FACT; }
 bino|Bino|BINO { return BINO; }
-ans|Ans|ANS { return ANS; }
-x|X {return VAR; }
 
-
-
-Pi|PI|pi    {  yylval = 3.14159265359; return NUM; }
 \n     {  return '\n'; }
+[a-zA-Z_][a-zA-Z_0-9]* { strcpy( yylval.sval, yytext); return VAR; }
 " "    {}
 .      {  return yytext[0]; }
 
 %%
 
 int yywrap(){}
-

@@ -1,7 +1,8 @@
 calculette
-calculette.cpp
-calculette.tab.h
-calculette.tab.c
+calculette.bison.cpp
+calculette.bison.hpp
+calculette.lex.cpp
+test.txt
 node_modules/
 .vscode/
 build/
