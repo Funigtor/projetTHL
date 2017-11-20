@@ -18,6 +18,8 @@ template<typename type> std::string vectToJson(std::vector<type> tabCpp){
     Json::Value duCul;
     for (auto j : tabCpp) duCul.append(j);
     sandwich["points"] = duCul;
+    sandwich["min"] = *std::min_element(std::begin(tabCpp), std::end(tabCpp));
+    sandwich["max"] = *std::max_element(std::begin(tabCpp), std::end(tabCpp));
     // Return string
     std::stringstream result; result << sandwich; 
     return result.str();
@@ -38,10 +40,6 @@ NAN_METHOD(plot){
     double fin = info[2]->NumberValue();
     double pas = (fin - debut)/1000;
     auto graph = linear(debut,fin,pas);
-    std::ofstream jambon ("/tmp/outJs", std::ofstream::out);
-    jambon << "debut =" << debut << " | fin = " << fin << " | pas = " << pas << std::endl;
-    for (auto i : graph) jambon << i << ",";
-    jambon.close();
     auto returned = Nan::New(vectToJson(graph)).ToLocalChecked();
     info.GetReturnValue().Set(returned);    
 }
