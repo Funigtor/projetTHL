@@ -22,6 +22,27 @@ socket.on("tab", function (data) {
     }
     var newMax = Math.max.apply(null,newPoints)
     if (500 - newMax > 1) for (i = 0; i < 1000; i++) newPoints[i] += 500-newMax
+    // On divise notre intervale en 10 parties égales
+    var ValX = new Array();
+    var ValY = new Array();
+    {
+        let debX = $('#debut').val()
+        let finX = $('#fin').val()
+        let pasX = Number((finX - debX) / 10)
+        for (let i = Number(debX); i <= finX; i+=pasX){
+            ValX.push(i)
+        } 
+        let debY = tab.min
+        let finY = tab.max
+        let pasY = (finY - debY) / 10
+        for (let j = debY; j <= finY; j+=pasY) ValY.push(j);
+        console.log(ValX);console.log(ValY);
+        // On va arrondir les valeurs.
+        for (let k = 0; k<ValX.length;k+=1){
+            ValX[k] = Math.round(ValX[k]*100)/100
+            ValY[k] = Math.round(ValY[k]*100)/100
+        }  
+    }
     // On dessine une courbe
     canvas = document.getElementById('graph');
     if (canvas.getContext) {
@@ -42,6 +63,12 @@ socket.on("tab", function (data) {
         for (var int = 0; int <= 10; int++){
             ctx.fillRect(int * longueur/10,abs-3,1,6);
             ctx.fillRect(ord-3,int * hauteur/10,6,1);
+            if (int<=9){
+                ctx.transform(1, 0, 0, -1, 0, canvas.height)
+                ctx.fillText(ValX[int].toString(),int*longueur/10,abs+5)
+                ctx.fillText(ValY[int].toString(),ord+5,int * hauteur)
+                ctx.transform(1, 0, 0, -1, 0, canvas.height)
+            }
         }
         ctx.fillStyle = 'rgb(200, 0, 0)';
         for (i = 0; i < 1000; i++) {
@@ -56,6 +83,7 @@ let closure = function() {
     // Inversion de l'axe y
     canvas = document.getElementById('graph');
     let ctx = canvas.getContext('2d');
-    ctx.translate(0, canvas.height);
-    ctx.scale(1, -1);
+    ctx.transform(1, 0, 0, -1, 0, canvas.height)
+    //ctx.translate(0, canvas.height);
+    //ctx.scale(1, -1);
 }();
