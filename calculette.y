@@ -2,6 +2,7 @@
   #include <stdio.h>
   #include <stdlib.h>
   #include <iostream>
+  #include <fstream>
   #include <math.h>
   #include <map>
   #include <string>
@@ -29,9 +30,9 @@
     double temp1;
     double temp2;
     for (auto j : expression){
-      if (j.first == "NUM"){
+      if (j.first == "NUM"){        //detecte les nombres
         calculons.push(j.second);
-      }else if (j.first == "VAR"){
+      }else if (j.first == "VAR"){  // detecte les variable
         calculons.push(x);
       }else if (j.first == "+"){
         temp2 = calculons.top();
@@ -64,8 +65,12 @@
         calculons.pop();
         temp2 = calculons.top();
         calculons.pop();
-        temp1 /= temp2;
-        calculons.push(temp1);
+        if(temp2 == 0){
+          calculons.push(0);
+        }else{
+          temp1 /= temp2;
+          calculons.push(temp1);
+        }
       }else if (j.first == "sin"){
         temp1 = calculons.top();
         calculons.pop();
@@ -104,13 +109,21 @@
       }else if (j.first == "log"){
         temp1 = calculons.top();
         calculons.pop();
-        temp1 = log(temp1);
-        calculons.push(temp1);
+        if (temp1 <= 0){
+          calculons.push(0);
+        }else{
+          temp1 = log(temp1);
+          calculons.push(temp1);
+        }
       }else if (j.first == "sqrt"){
         temp1 = calculons.top();
         calculons.pop();
-        temp1 = sqrt(temp1);
-        calculons.push(temp1);
+        if (temp1 < 0){
+          calculons.push(0);
+        }else{
+          temp1 = sqrt(temp1);
+          calculons.push(temp1);
+        }
       }else if (j.first == "^"){
         temp2 = calculons.top();
         calculons.pop();
@@ -170,27 +183,22 @@
         calculons.pop();
         temp1 = calculons.top();
         calculons.pop();
-        temp1 = bino(temp1,temp2);
-        calculons.push(temp1);
+        if ( temp1 >= 0 && temp2 >= 0){
+          temp1 = bino(temp1,temp2);
+          calculons.push(temp1);
+        }else{
+          calculons.push(0);
+        }
       }
     }
     result.push_back(calculons.top());
     calculons.pop();
-
   }
 
-  void test(){
-    for ( auto i : expression ){
-      cout << i.first << " -> " << i.second << " "<<endl;
-    }
-    cout << endl;
-    for (double o = 0; o<=10; o++){
+  void final_calcule(double Xmin, double Xmax, double pas){
+    for (double o = Xmin; o<=Xmax; o+=pas){
       calcul_exp(o);
     }
-    for (auto p: result){
-      cout << p << " ; " ;
-    }
-    cout << endl;
     while (!result.empty()){
       result.pop_back();
     }
@@ -245,7 +253,7 @@ program: /* empty */
 	   ;
 
 line: '\n'
-	| expr '\n' { cout<< " " <<endl;test(); }
+	| expr '\n' { cout<< " " <<endl;final_calcule(-10,10,0.001); }
   | VAR '=' expr   { cout<<"affectation"<<endl; }
 	;
 
@@ -285,11 +293,14 @@ expr:
 
 %%
 
-
 int main(int argc, char* argv[]) {
-	if (argc>= 2) yyin = fopen(argv[1],"r");
-  yyparse();
-  fclose(yyin);
+	if (argc>= 2){
+    yyin = fopen(argv[1],"r");
+    yyparse();
+    fclose(yyin);
+  }
+
+  //
   return 0;
 
 }
