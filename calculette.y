@@ -195,6 +195,28 @@
     calculons.pop();
   }
 
+  void final_calcule(){
+    double Xmin, Xmax, pas;
+    ifstream textXmin("/tmp/debutCALC");
+    textXmin >> Xmin;
+    ifstream textXmax("/tmp/finCALC");
+    textXmax >> Xmax;
+    pas = (Xmax - Xmin)/1000;
+    textXmax.close(); textXmin.close();
+    for (double o = Xmin; o<=Xmax; o+=pas){
+      calcul_exp(o);
+    }
+    for (auto p: result){
+      cout << p << " " ;
+    }
+    while (!result.empty()){
+      result.pop_back();
+    }
+    while (!expression.empty()){
+      expression.pop_back();
+    }
+  }
+
   void final_calcule(double Xmin, double Xmax, double pas){
     for (double o = Xmin; o<=Xmax; o+=pas){
       calcul_exp(o);
@@ -253,8 +275,8 @@ program: /* empty */
 	   ;
 
 line: '\n'
-	| expr '\n' { cout<< " " <<endl;final_calcule(-10,10,0.001); }
-  | VAR '=' expr   { cout<<"affectation"<<endl; }
+	| expr '\n' { cout<< " " <<endl;final_calcule(); }
+  | VAR '=' expr   { /*cout<<"affectation"<<endl;*/ }
 	;
 
 expr:

@@ -43,7 +43,8 @@ io.sockets.on('connection', function (socket) {
         else {
             tabJson = plot(input.fonction, Number(input.debut), Number(input.fin));
         console.log(tabJson);
-        socket.emit("tab",tabJson)
+        if (JSON.parse(tabJson).error) socket.emit("LolNope",{});
+        else socket.emit("tab",tabJson)
         }
     })
 });

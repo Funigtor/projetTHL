@@ -11,6 +11,22 @@
 
 // Fonction de test avec arguments
 
+std::vector<double> fToCalc(){
+    system("./calculette /tmp/fCALC > /tmp/raiponce");
+    std::vector<double> result;
+    double tmp;
+    // On teste la syntaxe
+    std::ifstream syntax("/tmp/raiponce");
+    std::string testStr;
+    getline(syntax,testStr);
+    syntax.close();
+    if (testStr == "syntax error")result.push_back(-1.0); // Juste -1 déclanche LolNope
+    else {
+        std::ifstream file("/tmp/raiponce");
+        while (file >> tmp) result.push_back(tmp);
+    }
+    return result;
+}
 
 template<typename type> std::string vectToJson(std::vector<type> tabCpp){
     // Maintenant on va essayer de sortir un JSON.
@@ -35,12 +51,21 @@ NAN_METHOD(plot){
         Nan::ThrowTypeError("Wrong arguments");
         return;
     }
-
+    v8::String::Utf8Value fonction(info[0]->ToString());
+    std::string fString = std::string(*fonction);
     double debut = info[1]->NumberValue();
     double fin = info[2]->NumberValue();
-    double pas = (fin - debut)/1000;
-    auto graph = linear(debut,fin,pas);
-    auto returned = Nan::New(vectToJson(graph)).ToLocalChecked();
+    std::ofstream textDebut("/tmp/debutCALC");
+    std::ofstream textFin("/tmp/finCALC");
+    textDebut << debut ; textFin << fin; 
+    std::ofstream textFunction("/tmp/fCALC");
+    textFunction << fString;
+    textFunction << "\n";
+    textDebut.close(); textFin.close(); textFunction.close();
+    auto graph = fToCalc();
+    auto returned = Nan::New("placeholder").ToLocalChecked();
+    if (graph.size() < 2 || graph.empty()) returned = Nan::New("{\"error\": true}").ToLocalChecked();
+    else returned = Nan::New(vectToJson(graph)).ToLocalChecked();
     info.GetReturnValue().Set(returned);    
 }
 
