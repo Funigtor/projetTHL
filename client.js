@@ -14,7 +14,8 @@ socket.on("tab", function (data) {
     tab = JSON.parse(data);
     console.log(tab);
     document.getElementById("hello").innerHTML = tab.points;
-    var coeff = document.getElementById("graph").getAttribute('height') / tab.max - tab.min;
+    if (! tab.min === tab.max) {
+var coeff = document.getElementById("graph").getAttribute('height') / tab.max - tab.min;
     // On recalcule 
     var newPoints = new Array();
     for (i = 0; i < 1000; i++) {
@@ -75,6 +76,11 @@ socket.on("tab", function (data) {
             ctx.fillRect(i, newPoints[i], 1, 1)
         }
     }
+    }
+    else {
+        alert("Le résultat du calcul est : " + tab.points[0]);
+    }
+    
 })
 
 socket.on("LolNope", data => alert("Les données d'entrées sont incorrectes."))
