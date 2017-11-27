@@ -60,7 +60,7 @@ NAN_METHOD(plot){
     textDebut << debut ; textFin << fin; 
     std::ofstream textFunction("/tmp/fCALC");
     textFunction << fString;
-    textFunction << "\n";
+    textFunction << std::endl;
     textDebut.close(); textFin.close(); textFunction.close();
     auto graph = fToCalc();
     auto returned = Nan::New("placeholder").ToLocalChecked();
