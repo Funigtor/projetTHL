@@ -57,8 +57,8 @@ socket.on("tab", function (data) {
             var longueur = document.getElementById("graph").getAttribute('width');
             var hauteur = document.getElementById("graph").getAttribute('height');
             // On définit la position de l'abscisse et de l'ordonnée
-            var abs = hauteur / 2;
-            var ord = longueur / 2;
+            var abs = 20;//hauteur / 2;
+            var ord = 20;//longueur / 2;
             ctx.fillRect(0, abs, longueur, 1);
             ctx.fillRect(ord, 0, 1, hauteur);
             // On trace des petits traits pour faire joli.
@@ -68,8 +68,8 @@ socket.on("tab", function (data) {
                 if (int <= 9) {
                     ctx.transform(1, 0, 0, -1, 0, canvas.height)
                     //ctx.fillText(text,x,y)
-                    ctx.fillText(ValX[int].toString(), int * longueur / 10, abs + 10)
-                    ctx.fillText(ValY[int].toString(), ord + 10, int * hauteur)
+                    ctx.fillText(ValX[int].toString(), int * longueur / 10, 500 - abs)
+                    ctx.fillText(ValY[int].toString(), ord + 20, (9-int) * hauteur)
                     ctx.transform(1, 0, 0, -1, 0, canvas.height)
                 }
             }
