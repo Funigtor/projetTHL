@@ -68,7 +68,7 @@
         if(temp2 == 0){
           calculons.push(0);
         }else{
-          temp1 /= temp2;
+          temp1 = temp2/ temp1;
           calculons.push(temp1);
         }
       }else if (j.first == "sin"){
