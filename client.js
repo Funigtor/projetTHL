@@ -5,7 +5,6 @@ $('#clickMe').click(function (event) {
     sent.fonction = $('#fonction').val();
     sent.debut = $('#debut').val();
     sent.fin = $('#fin').val();
-    //sent.pas = $('#pas').val();
     socket.emit('sandwich', JSON.stringify(sent));
 });
 // Gestion du réseau
@@ -37,8 +36,6 @@ socket.on("tab", function (data) {
             let finY = tab.max
             let pasY = (finY - debY) / 10
             for (let j = debY; j <= finY; j += pasY) ValY.push(j);
-            console.log(ValX);
-            console.log(ValY);
             // On va arrondir les valeurs.
             for (let k = 0; k < ValX.length; k += 1) {
                 ValX[k] = Math.round(ValX[k] * 100) / 100
@@ -57,8 +54,8 @@ socket.on("tab", function (data) {
             var longueur = document.getElementById("graph").getAttribute('width');
             var hauteur = document.getElementById("graph").getAttribute('height');
             // On définit la position de l'abscisse et de l'ordonnée
-            var abs = 20; //hauteur / 2;
-            var ord = 20; //longueur / 2;
+            var abs = 20;
+            var ord = 20;
             ctx.fillRect(0, abs, longueur, 1);
             ctx.fillRect(ord, 0, 1, hauteur);
             // On trace des petits traits pour faire joli.
@@ -91,6 +88,4 @@ let closure = function () {
     canvas = document.getElementById('graph');
     let ctx = canvas.getContext('2d');
     ctx.transform(1, 0, 0, -1, 0, canvas.height)
-    //ctx.translate(0, canvas.height);
-    //ctx.scale(1, -1);
 }();
