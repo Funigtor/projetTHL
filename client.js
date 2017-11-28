@@ -8,6 +8,23 @@ $('#clickMe').click(function (event) {
     socket.emit('sandwich', JSON.stringify(sent));
 });
 // Gestion du réseau
+holdGraph = false;
+color = 'rgb(200, 0, 0)';
+
+document.getElementById("bhold").addEventListener("click",function (event){
+    holdGraph = !holdGraph;
+    (holdGraph) ? $("#bhold").html("HOLD ON") : $("#bhold").html("HOLD OFF")
+})
+
+
+$("#bcolor").click(function (event){
+    color = $("#color").val()
+    $("#bcolor").html("Couleur changée")
+    setTimeout(function(){
+        $("#bcolor").html("Définir la couleur")
+    },1000)
+})
+
 var socket = io.connect(document.location.href);
 socket.on("tab", function (data) {
     tab = JSON.parse(data);
@@ -47,7 +64,8 @@ socket.on("tab", function (data) {
         canvas = document.getElementById('graph');
         if (canvas.getContext) {
             var ctx = canvas.getContext('2d');
-            ctx.fillStyle = "white";
+            if (!holdGraph){
+                ctx.fillStyle = "white";
             ctx.fillRect(0, 0, document.getElementById("graph").getAttribute('width'), document.getElementById("graph").getAttribute('height'));
             // Après avoir nettoyé notre espace, on va ajouter des axes
             ctx.fillStyle = "black";
@@ -71,7 +89,8 @@ socket.on("tab", function (data) {
                     ctx.transform(1, 0, 0, -1, 0, canvas.height)
                 }
             }
-            ctx.fillStyle = 'rgb(200, 0, 0)';
+            }
+            ctx.fillStyle = color;
             for (i = 0; i < 1000; i++) {
                 ctx.fillRect(i, newPoints[i], 1, 1)
             }
