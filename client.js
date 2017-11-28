@@ -21,8 +21,9 @@ socket.on("tab", function (data) {
             newPoints[i] = tab.points[i] * coeff
         }
         var newMax = Math.max.apply(null, newPoints)
-        for (let iz = 0; iz < 1000; iz++)
-            newPoints[iz] += newMax
+        if (tab.min < 0)
+            for (let iz = 0; iz < 1000; iz++)
+                newPoints[iz] += newMax
         // On divise notre intervale en 10 parties égales
         var ValX = new Array();
         var ValY = new Array(); {
