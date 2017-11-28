@@ -46,7 +46,7 @@
         calculons.pop();
         temp1 = calculons.top();
         calculons.pop();
-        temp1+= temp2;
+        temp1 -= temp2;
         calculons.push(temp1);
       }else if (j.first == "_"){
         temp1 = calculons.top();
