@@ -68,8 +68,8 @@ socket.on("tab", function (data) {
                 if (int <= 9) {
                     ctx.transform(1, 0, 0, -1, 0, canvas.height)
                     //ctx.fillText(text,x,y)
-                    ctx.fillText(ValX[int].toString(), int * longueur / 10, 500 - abs)
-                    ctx.fillText(ValY[int].toString(), ord + 20, (9 - int) * hauteur)
+                    ctx.fillText(ValX[int].toString(), int * longueur / 10, 500 - abs - 5)
+                    ctx.fillText(ValY[int].toString(), ord + 15, (10 - int) * hauteur/10)
                     ctx.transform(1, 0, 0, -1, 0, canvas.height)
                 }
             }
