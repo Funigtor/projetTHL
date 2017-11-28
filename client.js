@@ -15,15 +15,15 @@ socket.on("tab", function (data) {
     console.log(tab);
     document.getElementById("hello").innerHTML = tab.points;
     if (!(tab.min === tab.max)) {
-        var coeff = document.getElementById("graph").getAttribute('height') / tab.max - tab.min;
+        var coeff = document.getElementById("graph").getAttribute('height') / (tab.max - tab.min);
         // On recalcule 
         var newPoints = new Array();
-        for (i = 0; i < 1000; i++) {
+        for (let i = 0; i < 1000; i++) {
             newPoints[i] = tab.points[i] * coeff
         }
         var newMax = Math.max.apply(null, newPoints)
-        if (500 - newMax > 1)
-            for (i = 0; i < 1000; i++) newPoints[i] += 500 - newMax
+        for (let iz = 0; iz < 1000; iz++)
+            newPoints[iz] += newMax
         // On divise notre intervale en 10 parties égales
         var ValX = new Array();
         var ValY = new Array(); {
@@ -57,8 +57,8 @@ socket.on("tab", function (data) {
             var longueur = document.getElementById("graph").getAttribute('width');
             var hauteur = document.getElementById("graph").getAttribute('height');
             // On définit la position de l'abscisse et de l'ordonnée
-            var abs = 20;//hauteur / 2;
-            var ord = 20;//longueur / 2;
+            var abs = 20; //hauteur / 2;
+            var ord = 20; //longueur / 2;
             ctx.fillRect(0, abs, longueur, 1);
             ctx.fillRect(ord, 0, 1, hauteur);
             // On trace des petits traits pour faire joli.
@@ -69,7 +69,7 @@ socket.on("tab", function (data) {
                     ctx.transform(1, 0, 0, -1, 0, canvas.height)
                     //ctx.fillText(text,x,y)
                     ctx.fillText(ValX[int].toString(), int * longueur / 10, 500 - abs)
-                    ctx.fillText(ValY[int].toString(), ord + 20, (9-int) * hauteur)
+                    ctx.fillText(ValY[int].toString(), ord + 20, (9 - int) * hauteur)
                     ctx.transform(1, 0, 0, -1, 0, canvas.height)
                 }
             }
