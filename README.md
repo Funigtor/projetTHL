@@ -27,26 +27,6 @@ On peut utiliser aussi une variable x ou des fonctions déjà implémentées com
 ![Image d'une la fonction sinus](sinx.png)
 
 # Fonctions disponibles
-Pi
-sin
-cos
-tan
-exp
-log
-sqrt
-pow
-Acos
-ASIN
-Atan
-sinh
-cosh
-tanh
-Acosh
-ASINH
-Atanh
-Fmod
-abs
-bino
 
 | nom des fonction | utilisation |
 |------|------|
