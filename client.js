@@ -44,6 +44,11 @@ socket.on("tab", function (data) {
         // On recalcule 
         var newPoints = new Array();
         for (let i = 0; i < 1000; i++) {
+            if (tab.points[i] == 1143770000000000){
+                tab.points[i] = 0;
+                tab.max = Math.max.apply(null, tab.points)
+                coeff = document.getElementById("graph").getAttribute('height') / (tab.max - tab.min);
+            } 
             newPoints[i] = tab.points[i] * coeff
         }
         var newMax = Math.max.apply(null, newPoints)

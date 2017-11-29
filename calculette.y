@@ -65,8 +65,8 @@
         calculons.pop();
         temp2 = calculons.top();
         calculons.pop();
-        if(temp2 == 0){
-          calculons.push(0);
+        if(temp1 == 0){
+          calculons.push(0.0);
         }else{
           temp1 = temp2/ temp1;
           calculons.push(temp1);
