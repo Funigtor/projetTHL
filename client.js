@@ -16,6 +16,14 @@ document.getElementById("bhold").addEventListener("click",function (event){
     (holdGraph) ? $("#bhold").html("HOLD ON") : $("#bhold").html("HOLD OFF")
 })
 
+document.getElementById("graph").addEventListener("click", function (event){
+    let value = event.clientX;
+    let finInter = Number($('#fin').val());
+    let debutInter = Number($('#debut').val());
+    let pas = (finInter - debutInter)/1000
+    let string = "La valeur en " +  (debutInter + value*pas)  + " est " + tab.points[value]
+    document.getElementById("res").innerHTML = string;
+})
 
 $("#bcolor").click(function (event){
     color = $("#color").val()
@@ -27,6 +35,7 @@ $("#bcolor").click(function (event){
 
 var socket = io.connect(document.location.href);
 socket.on("tab", function (data) {
+    document.getElementById("res").innerHTML = "";
     tab = JSON.parse(data);
     console.log(tab);
     document.getElementById("hello").innerHTML = tab.points;
