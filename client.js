@@ -48,6 +48,7 @@ socket.on("tab", function (data) {
                 tab.points[i] = 0;
                 tab.max = Math.max.apply(null, tab.points)
                 coeff = document.getElementById("graph").getAttribute('height') / (tab.max - tab.min);
+                i = 0;
             } 
             newPoints[i] = tab.points[i] * coeff
         }
