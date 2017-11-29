@@ -47,3 +47,27 @@ Atanh
 Fmod
 abs
 bino
+
+| nom des fonction | utilisation |
+|------|------|
+| pi | pi = 3.14... |
+| sinus | sin(x) |
+| cosus | cos(x) |
+| tangente | tan(x) |
+| exponentiel | exp(x) |
+| logarithme | log(x) |
+| racine carré | sqrt(x) |
+| puissance | pow(x,n) ou x^n |
+| asinus | asin(x) |
+| acosinus | acos(x) |
+| atangente | atan(x) |
+| sinus hyperbolique | sinh(x) |
+| cosinus hyperbolique | cosh(x) |
+| tangente hyperbolique | tanh(x) |
+| asinus hyperbolique | asinh(x) |
+| acosinus hyperbolique | acosh(x) |
+| atangente hyperbolique | atanh(x) |
+| fonction modulo | fmod(x,n) ou x%n |
+| valeur absolu | abs(x) ou \|x\| |
+| factorielle | fact(x) ou !x |
+| coefficient binomiale | bino(x,n) |s
