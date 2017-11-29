@@ -41,10 +41,14 @@ io.sockets.on('connection', function (socket) {
         input = JSON.parse(message);
         if (Number(input.debut) >= Number(input.fin)) socket.emit("LolNope",{});
         else {
+            if (input.fonction == "Fonction") {
+                socket.emit("LolNope",{})
+            } else {
             tabJson = plot(input.fonction, Number(input.debut), Number(input.fin));
         console.log(tabJson);
-        if (JSON.parse(tabJson).error) socket.emit("LolNope",{});
-        else socket.emit("tab",tabJson)
+                if (JSON.parse(tabJson).error) socket.emit("LolNope", {});
+                else socket.emit("tab", tabJson)
+            }
         }
     })
 });
